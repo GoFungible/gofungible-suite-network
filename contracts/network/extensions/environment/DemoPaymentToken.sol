@@ -1,0 +1,54 @@
+/**
+ *
+ *                 _ _   ______                        _
+ *	░██████╗░░█████╗░░██████╗░█████╗░██╗░░░░░██╗░█████╗░██╗░░██╗
+ *	██╔════╝░██╔══██╗██╔════╝██╔══██╗██║░░░░░██║██╔══██╗██║░██╔╝
+ *	██║░░██╗░███████║╚█████╗░██║░░╚═╝██║░░░░░██║██║░░╚═╝█████═╝░
+ *	██║░░╚██╗██╔══██║░╚═══██╗██║░░██╗██║░░░░░██║██║░░██╗██╔═██╗░
+ *	╚██████╔╝██║░░██║██████╔╝╚█████╔╝███████╗██║╚█████╔╝██║░╚██╗
+ *	░╚═════╝░╚═╝░░╚═╝╚═════╝░░╚════╝░╚══════╝╚═╝░╚════╝░╚═╝░░╚═╝
+ *
+ * This token is just a plain sample ERC-20 used to test the crowdsale contracts. It represents a generic payemnt token for testnets.
+ *
+ * *********************************************************************************
+ * THIS TOKEN IS NOT TO BE AUDITED. IS ONLY INCLUDED FOR TEST PURPOSES.
+ * *********************************************************************************
+ * 
+ */
+
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.27;
+
+/// Minimal ERC-20 token intended to be used in test scripts only.
+/// By design, it's not possible to mint tokens. You must use your EVM implementation
+/// or testing framework debugging tools to initialize a balance to use this token in tests.
+/// DO NOT USE THIS SMART CONTRACT IN PRODUCTION.
+contract DemoPaymentToken {
+  uint256 public totalSupply;
+  mapping(address => uint256) public balanceOf;
+  mapping(address => mapping(address => uint256)) public allowance;
+
+  event Transfer(address indexed from, address indexed to, uint256 value);
+  event Approval(address indexed owner, address indexed spender, uint256 value);
+
+  function transfer(address to, uint256 value) public returns (bool) {
+    balanceOf[msg.sender] -= value;
+    balanceOf[to] += value;
+    emit Transfer(msg.sender, to, value);
+    return true;
+  }
+
+  function transferFrom(address from, address to, uint256 value) public returns (bool) {
+    allowance[from][msg.sender] -= value;
+    balanceOf[from] -= value;
+    balanceOf[to] += value;
+    emit Transfer(from, to, value);
+    return true;
+  }
+
+  function approve(address spender, uint256 value) public returns (bool) {
+    allowance[msg.sender][spender] = value;
+    emit Approval(msg.sender, spender, value);
+    return true;
+  }
+}
