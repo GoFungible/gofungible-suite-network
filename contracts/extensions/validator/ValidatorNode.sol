@@ -1,8 +1,6 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.8.30;
 
-import "../../../token/core/INodeToken.sol";
-
 contract ValidatorNode {
     struct Validation {
         uint256 chainId;
